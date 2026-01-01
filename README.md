@@ -5,10 +5,12 @@ A simple password manager built in Python using:
 - Fernet authenticated encryption
 
 ## Features
-- Master-password–derived encryption key
-- No stored encryption key
-- Encrypted password storage
-- Secure by design
+- Master password–based encryption
+- Encryption key derived using **PBKDF2 (SHA-256)**
+- Authenticated encryption with **Fernet**
+- Secure salt handling (generated once, reused safely)
+- No encryption key stored on disk
+- Local file-based password storage
   
 ## Read Before Using
 -Install cryptography package using pip
