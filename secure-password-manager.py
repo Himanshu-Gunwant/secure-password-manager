@@ -9,20 +9,19 @@ def derive_key(master_password: str, salt: bytes) -> bytes:
         algorithm=hashes.SHA256(),
         length=32,
         salt=salt,
-        iterations=390_000,   # strong
+        iterations=390_000,
     )
     return base64.urlsafe_b64encode(
         kdf.derive(master_password.encode())
     )
 
 
-#for salt file
+#for genrating salt file only required for first use you may delete it later
 def create_salt():
     salt = os.urandom(16)
     with open("salt.bin", "wb") as f:
         f.write(salt)
     return salt
-
 
 def load_salt():
     with open("salt.bin", "rb") as f:
@@ -78,3 +77,4 @@ while True :
         add()
 
 print("Thank you for using password manager")
+
