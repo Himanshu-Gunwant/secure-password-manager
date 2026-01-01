@@ -9,19 +9,20 @@ def derive_key(master_password: str, salt: bytes) -> bytes:
         algorithm=hashes.SHA256(),
         length=32,
         salt=salt,
-        iterations=390_000,
+        iterations=390_000,   # strong
     )
     return base64.urlsafe_b64encode(
         kdf.derive(master_password.encode())
     )
 
 
-#for genrating salt file only required for first use you may delete it later
+#for salt file
 def create_salt():
     salt = os.urandom(16)
     with open("salt.bin", "wb") as f:
         f.write(salt)
     return salt
+
 
 def load_salt():
     with open("salt.bin", "rb") as f:
@@ -44,7 +45,7 @@ def decrypt_password(master_password: str, token: bytes) -> str:
     fernet = get_fernet(master_password)
     return fernet.decrypt(token).decode()
 
-master_pwd = input("Enter the master password: ")
+master_pwd = input("Enter the master password : ")
 
 def view() :
     print("--------------------------------")
@@ -68,13 +69,14 @@ def add() :
 
 print("Welcome to the password manager")
 while True :
-    action = input("What would you like to do(view, add, quit) ? : ")
+    action = input("What would you like to do(view, add, quit) ? : ").lower()
     if action == "quit" :
         break
-    if action == "view" :
+    elif action == "view" :
         view()
     elif action == "add" :
         add()
+    else :
+        print("Invalid action!")
 
 print("Thank you for using password manager")
-
